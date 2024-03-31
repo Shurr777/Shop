@@ -1,8 +1,14 @@
 import React from 'react';
 import style from '../../styles/Sidebar.module.css';
 import {NavLink} from "react-router-dom";
+import {useSelector} from "react-redux";
 
 const Sidebar = () => {
+
+    const {list} = useSelector(({categories}) => categories)
+
+    console.log("List", list)
+
     return (
         <section className={style.sidebar}>
             <div className={style.title}>
@@ -10,11 +16,18 @@ const Sidebar = () => {
             </div>
             <nav>
                 <ul className={style.menu}>
-                    <li>
-                        <NavLink to={`/categories/${1}`}>
-                            Link
-                        </NavLink>
-                    </li>
+                    {list.map(({id, name}) => (
+                        <li key={id}>
+                            <NavLink
+                                className={({isActive}) => `${style.link}
+                                 ${isActive ? style.active : ""}`}
+                                to={`/categories/${id}`}>
+                                {name}
+                            </NavLink>
+                        </li>
+
+                    ))}
+
                 </ul>
             </nav>
             <div className={style.footer}>
