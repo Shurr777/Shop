@@ -1,6 +1,7 @@
 .home {
   position: relative;
   flex-grow: 1;
+  height: 480px;
 }
 
 .title {
@@ -21,6 +22,7 @@
 }
 
 .subtitle {
+  margin-top: 80px;
   line-height: 20px;
   text-transform: uppercase;
   color: var(--sea);
@@ -44,7 +46,7 @@
 
 .image img {
   position: absolute;
-  bottom: -15%;
+  bottom: -60%;
   right: 10%;
   max-width: unset;
 }
