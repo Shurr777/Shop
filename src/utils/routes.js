@@ -5,3 +5,4 @@ export const ROUTES = {
     CATEGORY: "/categories/:id",
 
 }
+
