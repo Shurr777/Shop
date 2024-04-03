@@ -3,9 +3,8 @@ import styles from '../../styles/Products.module.css'
 import {Link} from "react-router-dom";
 
 const Products = ({title, style = {}, products = [], amount}) => {
-const list = products.filter((_, index) =>index < amount);
 
-console.log("Products", products)
+const list = products.filter((_, index) =>index < amount);
 
 
     return (

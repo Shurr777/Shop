@@ -15,7 +15,7 @@ const Home = () => {
 
     useEffect(() => {
         if(!list.length) return;
-        dispatch(filterByPrice(50))
+        dispatch(filterByPrice(100))
     }, [dispatch, list.length]);
 
     return (

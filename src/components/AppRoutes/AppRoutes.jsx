@@ -6,8 +6,6 @@ import SingleProduct from "../Products/SingleProduct";
 
 const AppRoutes = () => {
 
-    console.log("Roures", ROUTES.PRODUCT)
-
     return (
         <Routes>
             <Route index element={<Home/>}/>
