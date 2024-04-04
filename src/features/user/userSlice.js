@@ -2,25 +2,27 @@ import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 import {BASE_URL} from "../../utils/constants";
 
-/*export const getProducts = createAsyncThunk(
-    'products/getProducts',
-    async (_, thunkAPI) => {
+export const createUser = createAsyncThunk(
+    'users/createUsers',
+    async (payload, thunkAPI) => {
         try {
-            const res = await axios(`${BASE_URL}/products`);
+            const res = await axios.post(`${BASE_URL}/users`, payload);
             return res.data;
         } catch (err) {
-            console.log("ProductsError", err)
+            console.log("UserError", err)
             return thunkAPI.rejectWithValue(err)
         }
     }
-)*/
+)
 
 const userSlice = createSlice({
     name: 'user',
     initialState: {
-        currentUser: [],
+        currentUser: null,
         card: [],
         isLoading: false,
+        formType: "signup",
+        showForm: false,
     },
     reducers: {
         addItemToCard: (state, {payload}) => {
@@ -35,23 +37,25 @@ const userSlice = createSlice({
             }else newCard.push({...payload, quantity: 1})
           state.card = newCard;
         },
+        toggleForm: (state, {payload}) => {
+            state.showForm = payload;
+        }
     },
 
-    /*extraReducers: (builder) => {
-        builder.addCase(getProducts.pending, (state, n) => {
+    extraReducers: (builder) => {
+        /*builder.addCase(getProducts.pending, (state, n) => {
             state.isLoading = true;
+        })*/
+
+        builder.addCase(createUser.fulfilled, (state, {payload}) => {
+            state.currentUser = payload;
         })
 
-        builder.addCase(getProducts.fulfilled, (state, {payload}) => {
-            state.list = payload;
+       /* builder.addCase(getProducts.rejected, (state, {payload}) => {
             state.isLoading = false;
-        })
-
-        builder.addCase(getProducts.rejected, (state, {payload}) => {
-            state.isLoading = false;
-        })
-    }*/
+        })*/
+    }
 })
 
-export const {addItemToCard} = userSlice.actions;
+export const {addItemToCard, toggleForm} = userSlice.actions;
 export default userSlice.reducer;
