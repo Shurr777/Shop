@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import style from '../../styles/Header.module.css'
 import {ROUTES} from "../../utils/routes";
@@ -8,12 +8,18 @@ import {useDispatch, useSelector} from "react-redux";
 import {toggleForm} from "../../features/user/userSlice";
 
 const Header = () => {
-const dispatch = useDispatch();
-    const {currentUser} = useSelector(({user}) => user)
+    const dispatch = useDispatch();
+    const {currentUser} = useSelector(({user}) => user);
+    const [values, setValues] = useState({name: "Guest", avatar: AVATAR});
 
     const handleClick = () => {
         if(!currentUser) dispatch(toggleForm(true))
     }
+
+    useEffect(() => {
+        if(!currentUser) return;
+        setValues(currentUser)
+    }, [currentUser]);
 
     return (
         <div className={style.header}>
@@ -24,8 +30,8 @@ const dispatch = useDispatch();
             </div>
             <div className={style.info}>
                 <div className={style.user} onClick={handleClick}>
-                    <div className={style.avatar} style={{backgroundImage: `url(${AVATAR})`}}></div>
-                    <div className={style.user}>Guest</div>
+                    <div className={style.avatar} style={{backgroundImage: `url(${values.avatar})`}}></div>
+                    <div className={style.user}>{values.name}</div>
                 </div>
                 <form className={style.form}>
                     <div className={style.icon}>
