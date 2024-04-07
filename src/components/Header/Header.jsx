@@ -6,17 +6,23 @@ import LOGO from "../../images/logo.svg";
 import AVATAR from '../../images/avatar.jpg'
 import {useDispatch, useSelector} from "react-redux";
 import {toggleForm} from "../../features/user/userSlice";
+import {useGetProductsQuery} from "../../features/api/apiSlice";
 
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {currentUser} = useSelector(({user}) => user);
     const [values, setValues] = useState({name: "Guest", avatar: AVATAR});
+    const [searchValue, setSearchValue] = useState("");
 
     const handleClick = () => {
         if(!currentUser) dispatch(toggleForm(true));
         else navigate(ROUTES.PROFILE)
     };
+
+    const {data, isLoading} = useGetProductsQuery({title: searchValue});
+
+    console.log("SearchData", data)
 
     useEffect(() => {
         if(!currentUser) return;
@@ -46,12 +52,32 @@ const Header = () => {
                                name="search"
                                placeholder="Search for anything..."
                                autoComplete="off"
-                               onChange={() => {
+                               onChange={(e) => {
+                                   setSearchValue(e.target.value)
                                }}
-                               value=""
+                               value={searchValue}
                         />
                     </div>
-                    {false && <div className={style.box}></div>}
+                    {searchValue && <div className={style.box}>
+                        {isLoading ?
+                            'Loading..' :
+                            !data.length ? "No results" : (
+                                data.map(({title, images, id}) => {
+                                    return (
+                                        <Link to={`/products/${id}`}
+                                              className={style.item}
+                                              onClick={()=>setSearchValue("")}
+                                              key={id}
+                                        >
+                                            <div className={style.image}
+                                                 style={{backgroundImage: `url(${images[0]})`}}
+                                            ></div>
+                                            <div className={style.title}>{title}</div>
+                                        </Link>
+                                    )
+                                })
+                            )}
+                    </div>}
                 </form>
 
                 <div className={style.account}>
