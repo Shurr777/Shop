@@ -3,7 +3,7 @@ import axios from "axios";
 import {BASE_URL} from "../../utils/constants";
 
 export const createUser = createAsyncThunk(
-    'users/createUsers',
+    'users/createUser',
     async (payload, thunkAPI) => {
         try {
             const res = await axios.post(`${BASE_URL}/users`, payload);
@@ -22,8 +22,8 @@ export const loginUser = createAsyncThunk(
             const res = await axios.post(`${BASE_URL}/auth/login`, payload);
             const login = await axios(`${BASE_URL}/auth/profile`, {
                 headers: {
-                    "Authorization": `Bearer${res.access_token}`
-                }
+                    "Authorization": `Bearer ${res.data.access_token}`
+                },
             });
             return login.data;
         } catch (err) {
@@ -83,5 +83,9 @@ const userSlice = createSlice({
     }
 })
 
-export const {addItemToCard, toggleForm, toggleFormType } = userSlice.actions;
+export const {
+    addItemToCard,
+    toggleForm,
+    toggleFormType
+} = userSlice.actions;
 export default userSlice.reducer;

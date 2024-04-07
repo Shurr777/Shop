@@ -34,7 +34,7 @@ const UserSignupForm = ({closeForm, toggleCurrentFormType}) => {
                 </svg>
             </div>
             <div className={s.title}>
-                Sign Up
+                Login
             </div>
             <form className={s.form} onSubmit={handleSubmit}>
                 <div className={s.group}>

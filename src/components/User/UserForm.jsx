@@ -1,8 +1,8 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import UserSignupForm from "./UserSignupForm";
 import s from "../../styles/User.module.css"
 import {toggleForm, toggleFormType} from "../../features/user/userSlice";
+import UserSignupForm from "./UserSignupForm";
 import UserLoginForm from "./UserLoginForm";
 
 const UserForm = () => {
@@ -15,14 +15,15 @@ const UserForm = () => {
 
     return (
         showForm ? (
-            <>
-                <div className={s.overlay} onClick={closeForm}/>
-                {formType === 'signup' ?
-                    <UserSignupForm toggleCurrentFormType={toggleCurrentFormType} closeForm={closeForm}/> :
-                    <UserLoginForm toggleCurrentFormType={toggleCurrentFormType} closeForm={closeForm}/>}
-                    </>) :
-                    <></>
-                    );
-                };
+                <>
+                    <div className={s.overlay} onClick={closeForm}/>
+                    {formType === 'signup' ? (
+                            <UserSignupForm toggleCurrentFormType={toggleCurrentFormType} closeForm={closeForm}/>) :
+                        (<UserLoginForm toggleCurrentFormType={toggleCurrentFormType} closeForm={closeForm}/>
+                        )}
+                </>) :
+            <></>
+    );
+};
 
-                export default UserForm;
+export default UserForm;
