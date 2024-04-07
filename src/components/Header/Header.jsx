@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import style from '../../styles/Header.module.css'
 import {ROUTES} from "../../utils/routes";
 import LOGO from "../../images/logo.svg";
@@ -9,12 +9,14 @@ import {toggleForm} from "../../features/user/userSlice";
 
 const Header = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const {currentUser} = useSelector(({user}) => user);
     const [values, setValues] = useState({name: "Guest", avatar: AVATAR});
 
     const handleClick = () => {
-        if(!currentUser) dispatch(toggleForm(true))
-    }
+        if(!currentUser) dispatch(toggleForm(true));
+        else navigate(ROUTES.PROFILE)
+    };
 
     useEffect(() => {
         if(!currentUser) return;
