@@ -33,6 +33,9 @@ const Category = () => {
     useEffect(() => {
         if(!id) return;
 
+        setValues(defaultValues)
+        setItems([])
+        setEnd(false)
         setParams({...defaultParams, categoryId: id})
     }, [id]);
 
@@ -62,7 +65,9 @@ const Category = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setParams({...params, ...values})
+        setItems([])
+        setEnd(false)
+        setParams({...defaultParams, ...values})
     }
 
     return (
@@ -84,6 +89,7 @@ const Category = () => {
                            onChange={handleChange}
                            value={values.price_min}
                     />
+                    <span>Price from</span>
                 </div>
                 <div className={styles.filter}>
                     <input type="number"
@@ -92,6 +98,7 @@ const Category = () => {
                            onChange={handleChange}
                            value={values.price_max}
                     />
+                    <span>Price to</span>
                 </div>
                 <button type="submit" hidden/>
             </form>
