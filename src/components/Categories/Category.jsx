@@ -23,6 +23,25 @@ const Category = () => {
     const [params, setParams] = useState(defaultParams)
     const [values, setValues] = useState(defaultValues)
     const [cat, setCat] = useState()
+    const [items, setItems] = useState([])
+
+    const {data, isLoading, isSuccess} = useGetProductsQuery(params);
+
+    console.log("Category data", data)
+
+    useEffect(() => {
+        if(!id) return;
+
+        setParams({...defaultParams, categoryId: id})
+    }, [id]);
+
+    useEffect(() => {
+        if(isLoading || !data.length) return;
+        const products = Object.values(data);
+        if(!products.length) return;
+
+        setItems((_items) => [..._items, ...products])
+    }, [data, isLoading]);
 
     useEffect(() => {
         if(!id || !list.length) return;
@@ -35,15 +54,6 @@ const Category = () => {
         setCat(name)
 
     }, [list, id]);
-
-    useEffect(() => {
-        if(!id) return;
-
-        setParams({...defaultParams, categoryId: id})
-    }, [id]);
-
-    const {data, isLoading, isSuccess} = useGetProductsQuery(params);
-
     const handleChange = ({target: {value, name}}) => {
         setValues({...values, [name]: value});
     }
@@ -84,15 +94,30 @@ const Category = () => {
                 <button type="submit" hidden/>
             </form>
             {isLoading ? (
-                <div className="preloader">Loading...</div>
-            ) : !isSuccess || !data.length ? (
-                <div className={styles.back}>
-                    <span>No results</span>
-                    <button>Reset</button>
-                </div>
-            ) : (
-                <Products title="" products={data} style={{padding: 0}} amount={data.length}/>
-            )}
+                    <div className="preloader">
+                        Loading...
+                    </div>) :
+                !isSuccess || !data.length ? (
+                    <div className={styles.back}>
+                        <span>No results</span>
+                        <button>Reset</button>
+                    </div>
+                ) : (
+                    <Products title=""
+                              products={items}
+                              style={{padding: 0}}
+                              amount={items.length}
+                    />
+                )}
+            <div className={styles.more}>
+                <button
+                    onClick={() =>
+                        setParams({...params, offset: params.offset + params.limit})
+                    }
+                >
+                    See more
+                </button>
+            </div>
         </section>
     );
 };
