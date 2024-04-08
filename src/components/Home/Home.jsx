@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import Poster from "../Poster/Poster";
 import Products from "../Products/Products";
-import Categories from "../Categories/categories";
+import Categories from "../Categories/Categories";
 import Banner from "../Banner/Banner";
 import {filterByPrice} from "../../features/products/productsSlice";
 

@@ -22,7 +22,7 @@ const Header = () => {
 
     const {data, isLoading} = useGetProductsQuery({title: searchValue});
 
-    console.log("SearchData", data)
+    /*console.log("SearchData", data)*/
 
     useEffect(() => {
         if(!currentUser) return;
