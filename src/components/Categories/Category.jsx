@@ -24,6 +24,7 @@ const Category = () => {
     const [values, setValues] = useState(defaultValues)
     const [cat, setCat] = useState()
     const [items, setItems] = useState([])
+    const [isEnd, setEnd] = useState(false)
 
     const {data, isLoading, isSuccess} = useGetProductsQuery(params);
 
@@ -36,7 +37,8 @@ const Category = () => {
     }, [id]);
 
     useEffect(() => {
-        if(isLoading || !data.length) return;
+        if(isLoading) return;
+        if(!data.length) return setEnd(true)
         const products = Object.values(data);
         if(!products.length) return;
 
@@ -97,7 +99,7 @@ const Category = () => {
                     <div className="preloader">
                         Loading...
                     </div>) :
-                !isSuccess || !data.length ? (
+                !isSuccess || !items.length ? (
                     <div className={styles.back}>
                         <span>No results</span>
                         <button>Reset</button>
@@ -109,15 +111,17 @@ const Category = () => {
                               amount={items.length}
                     />
                 )}
-            <div className={styles.more}>
-                <button
-                    onClick={() =>
-                        setParams({...params, offset: params.offset + params.limit})
-                    }
-                >
-                    See more
-                </button>
-            </div>
+            {!isEnd && (
+                <div className={styles.more}>
+                    <button
+                        onClick={() =>
+                            setParams({...params, offset: params.offset + params.limit})
+                        }
+                    >
+                        See more
+                    </button>
+                </div>
+            )}
         </section>
     );
 };
