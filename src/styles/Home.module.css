@@ -22,7 +22,8 @@
 }
 
 .subtitle {
-  margin-top: 80px;
+  margin-top: 90px;
+  font-size: 30px;
   line-height: 20px;
   text-transform: uppercase;
   color: var(--sea);

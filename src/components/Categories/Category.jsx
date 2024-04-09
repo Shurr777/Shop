@@ -22,13 +22,11 @@ const Category = () => {
     }
     const [params, setParams] = useState(defaultParams)
     const [values, setValues] = useState(defaultValues)
-    const [cat, setCat] = useState()
+    const [cat, setCat] = useState(null)
     const [items, setItems] = useState([])
     const [isEnd, setEnd] = useState(false)
 
     const {data, isLoading, isSuccess} = useGetProductsQuery(params);
-
-    console.log("Category data", data)
 
     useEffect(() => {
         if(!id) return;
@@ -70,6 +68,12 @@ const Category = () => {
         setParams({...defaultParams, ...values})
     }
 
+    const handleReset = () =>{
+        setValues(defaultValues)
+        setParams(defaultParams)
+        setEnd(false)
+    }
+
     return (
         <section className={styles.wrapper}>
             <h2>{cat}</h2>
@@ -109,7 +113,9 @@ const Category = () => {
                 !isSuccess || !items.length ? (
                     <div className={styles.back}>
                         <span>No results</span>
-                        <button>Reset</button>
+                        <button onClick={handleReset}>
+                            Reset
+                        </button>
                     </div>
                 ) : (
                     <Products title=""

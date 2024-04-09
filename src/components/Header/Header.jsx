@@ -11,7 +11,7 @@ import {useGetProductsQuery} from "../../features/api/apiSlice";
 const Header = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const {currentUser} = useSelector(({user}) => user);
+    const {currentUser, card} = useSelector(({user}) => user);
     const [values, setValues] = useState({name: "Guest", avatar: AVATAR});
     const [searchValue, setSearchValue] = useState("");
 
@@ -21,8 +21,6 @@ const Header = () => {
     };
 
     const {data, isLoading} = useGetProductsQuery({title: searchValue});
-
-    /*console.log("SearchData", data)*/
 
     useEffect(() => {
         if(!currentUser) return;
@@ -66,7 +64,7 @@ const Header = () => {
                                     return (
                                         <Link to={`/products/${id}`}
                                               className={style.item}
-                                              onClick={()=>setSearchValue("")}
+                                              onClick={() => setSearchValue("")}
                                               key={id}
                                         >
                                             <div className={style.image}
@@ -90,7 +88,7 @@ const Header = () => {
                         <svg className={style["icon-cart"]}>
                             <use xlinkHref={`${process.env.PUBLIC_URL}/sprite.svg#bag`}/>
                         </svg>
-                        <span className={style.count}>2</span>
+                        {!!card.length && <span className={style.count}>{card.length}</span>}
                     </Link>
                 </div>
             </div>

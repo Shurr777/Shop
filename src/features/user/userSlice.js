@@ -73,13 +73,15 @@ const userSlice = createSlice({
             } else newCard.push({...payload, quantity: 1})
             state.card = newCard;
         },
+        removeItemFromCard: (state, {payload}) => {
+            state.card = state.card.filter(({id}) => id !== payload)
+        },
         toggleForm: (state, {payload}) => {
             state.showForm = payload;
         },
         toggleFormType: (state, {payload}) => {
             state.formType = payload;
         },
-
     },
 
     extraReducers: (builder) => {
@@ -92,6 +94,7 @@ const userSlice = createSlice({
 export const {
     addItemToCard,
     toggleForm,
-    toggleFormType
+    toggleFormType,
+    removeItemFromCard
 } = userSlice.actions;
 export default userSlice.reducer;
